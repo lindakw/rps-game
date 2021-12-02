@@ -8,7 +8,6 @@ export default function App() {
   const [highScore, setHighScore] = useState(0);
   const [currentScore, setCurrentScore] = useState(0);
   const gameChoices = ["rock", "paper", "scissors"];
-  const [outCome, setOutCome] = useState({ user: "", computer: "" });
   const db = getDatabase();
   const reference = ref(db, "highscore/");
 
@@ -27,17 +26,10 @@ export default function App() {
     });
   };
 
-  const playRound = (userChoice) => {
+  const playRound = (num) => {
     const computerChoice = Math.floor(Math.random() * 3);
-    setOutCome({ user: userChoice, computer: gameChoices[computerChoice] });
-
-    if (userChoice === gameChoices[computerChoice]) return;
-
-    if (
-      (userChoice === "scissors" && gameChoices[computerChoice] === "paper") ||
-      (userChoice === "paper" && gameChoices[computerChoice] === "rock") ||
-      (userChoice === "rock" && gameChoices[computerChoice] === "scissors")
-    ) {
+    console.log(num, computerChoice);
+    if (num === computerChoice) {
       setCurrentScore(currentScore + 1);
       if (currentScore >= highScore) {
         setHighScore(currentScore + 1);
@@ -50,23 +42,21 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.score}>{highScore}</Text>
+      <Text style={styles.scoreBox}>{highScore}</Text>
+      <Text style={styles.score}>High Score</Text>
       <View style={styles.btnContainer}>
-        <Pressable
-          style={styles.btn}
-          onPress={() => playRound("rock")}
-          title="Rock"
-        >
-          <Text>Rock</Text>
+        <Pressable style={styles.btn} onPress={() => playRound(0)}>
+          <Text style={{ color: "white" }}>Pick Me</Text>
         </Pressable>
-        <Pressable style={styles.btn} onPress={() => playRound("paper")}>
-          <Text>Paper</Text>
+        <Pressable style={styles.btn} onPress={() => playRound(1)}>
+          <Text style={{ color: "white" }}>Pick Me</Text>
         </Pressable>
-        <Pressable style={styles.btn} onPress={() => playRound("scissors")}>
-          <Text>Scissors</Text>
+        <Pressable style={styles.btn} onPress={() => playRound(2)}>
+          <Text style={{ color: "white" }}>Pick Me</Text>
         </Pressable>
       </View>
-      <Text style={styles.score}>{currentScore}</Text>
+      <Text style={styles.scoreBox}>{currentScore}</Text>
+      <Text style={styles.score}>Current Score</Text>
 
       <StatusBar style="auto" />
     </View>
@@ -83,6 +73,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     flexDirection: "row",
     justifyContent: "center",
+    margin: 50,
   },
   btn: {
     margin: 10,
@@ -92,9 +83,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 20,
   },
+  scoreBox: {
+    fontSize: 32,
+    fontWeight: "bold",
+    margin: 15,
+    padding: 25,
+    borderWidth: 1,
+  },
   score: {
     fontSize: 32,
     fontWeight: "bold",
-    margin: 40,
   },
 });
