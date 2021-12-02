@@ -7,7 +7,6 @@ import "./firebase";
 export default function App() {
   const [highScore, setHighScore] = useState(0);
   const [currentScore, setCurrentScore] = useState(0);
-  const gameChoices = ["rock", "paper", "scissors"];
   const db = getDatabase();
   const reference = ref(db, "highscore/");
 
